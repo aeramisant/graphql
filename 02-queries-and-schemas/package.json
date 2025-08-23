@@ -1,0 +1,14 @@
+{
+  "name": "02-queries-and-schemas",
+  "version": "0.1.0",
+  "private": false,
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "dependencies": {
+    "apollo-server": "^3.13.0",
+    "graphql": "^16.11.0",
+    "nodemon": "^3.1.10"
+  }
+}
