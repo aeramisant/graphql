@@ -1,9 +1,16 @@
 import { ApolloServer } from 'apollo-server';
+import { PrismaClient } from './generated/prisma';
 import { typeDefs } from './schema';
 import { resolvers } from './resolvers/resolvers';
 
-const context = {
-  //   db,
+export interface Context {
+  prisma: PrismaClient;
+}
+
+const prisma = new PrismaClient();
+
+const context: Context = {
+  prisma,
 };
 
 const server = new ApolloServer({ typeDefs, resolvers, context });

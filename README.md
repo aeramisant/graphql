@@ -33,3 +33,20 @@ This course will teach you:
 - Connecting GraphQL to the client
 
 - Improve performance by learning about the n + 1 problem and solving it will data loaders
+
+Instead of using HEROKU:
+
+SQLite is a good alternative if you don't mind keeping your data locally and don't want to sign up for additional services
+I used an SQLite database instead of a hosted Postgres one because it was quick and easy to set up.
+
+To use an SQLite database:
+
+1. In your src folder, create a database folder
+2. Inside the folder, create a dev.db file
+3. In the .env file, use DATABASE_URL="file:../src/database/dev.db"
+4. In schema.prisma file, change the provider to sqlite
+5. Follow along with the course and it should all work as in the lectures
+
+run prisma:
+npx prisma db push
+npx prisma studio
