@@ -48,5 +48,9 @@ To use an SQLite database:
 5. Follow along with the course and it should all work as in the lectures
 
 run prisma:
+npx prisma init --datasource-provider sqlite
+DATABASE_URL="file:../src/database/dev.db"
+npx prisma migrate dev --name init
+npx prisma generate
 npx prisma db push
 npx prisma studio
