@@ -54,3 +54,13 @@ npx prisma migrate dev --name init
 npx prisma generate
 npx prisma db push
 npx prisma studio
+
+"@apollo/client": "^3.11.5",
+"bootstrap": "^5.3.3",
+"graphql": "^16.11.0",
+"react": "^17.0.2",
+"react-bootstrap": "^2.10.4",
+"react-dom": "^17.0.2",
+"react-router": "^5.3.4",
+"react-router-dom": "^5.3.4",
+"react-scripts": "5.0.1"
