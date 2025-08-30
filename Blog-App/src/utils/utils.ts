@@ -2,7 +2,7 @@ import JWT from 'jsonwebtoken';
 import { JSON_SIGNATURE } from '../keys';
 import type { PrismaClient } from '@prisma/client';
 
-interface CanUserMutatePostPasrams {
+interface CanUserMutatePostParams {
   userId: number;
   postId: number;
   prisma: PrismaClient;
@@ -20,7 +20,7 @@ export const canUserMutatePost = async ({
   userId,
   postId,
   prisma,
-}: CanUserMutatePostPasrams) => {
+}: CanUserMutatePostParams) => {
   const user = await prisma.user.findUnique({ where: { id: userId } });
 
   if (!user) {
