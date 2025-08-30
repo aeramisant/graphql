@@ -15,7 +15,7 @@ interface PostPayloadType {
 export const postResolvers = {
   postCreate: async (
     _: null,
-    { post, postId }: { post: PostArgs; postId: string },
+    { post }: { post: PostArgs; postId: string },
     { prisma, userInfo }: Context
   ): Promise<PostPayloadType> => {
     if (!userInfo) {
@@ -28,16 +28,6 @@ export const postResolvers = {
         ],
         post: null,
       };
-    }
-
-    const error = await canUserMutatePost({
-      userId: Number(userInfo.userId),
-      postId: Number(postId),
-      prisma,
-    });
-
-    if (error) {
-      return error;
     }
 
     const { title, content } = post;
@@ -66,10 +56,39 @@ export const postResolvers = {
   postUpdate: async (
     _: null,
     { post, postId }: { postId: string; post: PostArgs },
-    { prisma }: Context
+    { prisma, userInfo }: Context
   ): Promise<PostPayloadType> => {
-    const title = post?.title?.trim();
-    const content = post?.content?.trim();
+    if (!userInfo || !userInfo.userId) {
+      return {
+        userErrors: [
+          {
+            message: 'Forbidden access (unauthenticated)',
+          },
+        ],
+        post: null,
+      };
+    }
+
+    const error = await canUserMutatePost({
+      userId: userInfo.userId,
+      postId: Number(postId),
+      prisma,
+    });
+
+    if (error) return error;
+
+    const { title, content } = post;
+
+    if (!title && !content) {
+      return {
+        userErrors: [
+          {
+            message: 'Need to have at least on e field to update',
+          },
+        ],
+        post: null,
+      };
+    }
 
     const existingPost = await prisma.post.findUnique({
       where: { id: Number(postId) },
