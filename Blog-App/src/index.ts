@@ -9,7 +9,7 @@ export interface Context {
   userInfo: { userId: number | null } | undefined;
 }
 
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 
 // const context = async ({
 //   req,
