@@ -11,16 +11,6 @@ export interface Context {
 
 export const prisma = new PrismaClient();
 
-// const context = async ({
-//   req,
-// }: {
-//   req: { headers: { authorization?: string } };
-// }): Promise<Context> => {
-//   const token = req.headers.authorization as string;
-//   const userInfo = await getUserFromToken(token);
-//   return { prisma, userInfo };
-// };
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,

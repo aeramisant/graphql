@@ -6,3 +6,5 @@ keys.ts
 
 src/database/dev.db
 /src/generated/prisma
+
+/src/generated/prisma
