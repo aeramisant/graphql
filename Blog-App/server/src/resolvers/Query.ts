@@ -1,29 +1,40 @@
 import type { Context } from '..';
 
 export const Query = {
-  me: (parent: null, args: null, { prisma, userInfo }: Context) => {
+  me: (_parent: null, _args: null, { prisma, userInfo }: Context) => {
     if (!userInfo?.userId) {
       return null;
     }
     return prisma.user.findUnique({ where: { id: userInfo.userId } });
   },
 
-  profile: (
-    parent: null,
+  profile: async (
+    _parent: null,
     { userId }: { userId: string },
-    { prisma }: Context
+    { prisma, userInfo }: Context
   ) => {
     if (!userId) {
       return null;
     }
-    return prisma.profile.findUnique({ where: { id: Number(userId) } });
+    const isMyProfile = Number(userId) === userInfo?.userId;
+
+    const profile = await prisma.profile.findUnique({
+      where: { id: Number(userId) },
+    });
+
+    if (!profile) {
+      return null;
+    }
+
+    return { ...profile, isMyProfile };
   },
 
-  posts: async (parent: null, args: any, { prisma }: Context) => {
+  posts: async (_parent: null, _args: any, { prisma }: Context) => {
     const posts = await prisma.post.findMany({
       where: { published: true },
       orderBy: [{ createdAt: 'desc' }],
     });
+
     return posts;
   },
 };
