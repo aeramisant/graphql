@@ -1,16 +1,41 @@
-import React, { useState, useEffect } from 'react';
-
+import { useState, useEffect } from 'react';
+import { gql, useMutation } from '@apollo/client';
 import { Form } from 'react-bootstrap';
-// import Button from "@restart/ui/esm/Button";
 import Button from 'react-bootstrap/Button';
 
+const SIGNIN = gql`
+  mutation ($credentials: CredentialsInput!) {
+    signin(credentials: $credentials) {
+      userErrors {
+        message
+      }
+      token
+    }
+  }
+`;
+
 export default function Signin() {
+  const [signin, { data, loading }] = useMutation(SIGNIN);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleClick = () => {};
-
   const [error, setError] = useState(null);
+  const handleClick = () => {
+    signin({
+      variables: { credentials: { email, password } },
+    });
+  };
+
+  useEffect(() => {
+    if (data) {
+      if (data.signin.userErrors.length) {
+        setError(data.signin.userErrors[0].message);
+      }
+      if (data.signin.token) {
+        localStorage.setItem('token', data.signin.token);
+        setError('');
+      }
+    }
+  }, [data]);
 
   return (
     <div>

@@ -57,8 +57,6 @@ exports.Mutation = {
     if (before === db.products.length) return false;
 
     db.reviews = db.reviews.filter((review) => review.productId !== id);
-    console.log(db.products);
-    console.log(db.reviews);
     return true;
   },
 

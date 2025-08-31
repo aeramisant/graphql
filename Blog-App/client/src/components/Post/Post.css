@@ -91,3 +91,9 @@
     font-size: 0.75rem;
   }
 }
+
+.buttonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}

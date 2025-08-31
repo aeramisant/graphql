@@ -3,10 +3,40 @@
   padding: 0;
   box-sizing: border-box;
 }
+:root {
+  --bg: #f7f8fb;
+  --text: #0f172a;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--text);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, 'Apple Color Emoji', 'Segoe UI Emoji';
+}
 
 .App {
-  width: 25rem;
-  margin: 2.5rem auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.navBar {
+  width: 100%;
+}
+
+.routerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px 24px 48px;
 }
 
 .loader {

@@ -31,11 +31,7 @@ export default function Profile() {
   });
 
   if (error) {
-    return (
-      <div>
-        <h1>Error: Could not fetch data</h1>
-      </div>
-    );
+    return <div className="container">Error: {error.message}</div>;
   }
   if (loading) {
     return (
@@ -43,6 +39,9 @@ export default function Profile() {
         <span className="loader"></span>
       </div>
     );
+  }
+  if (!data?.profile) {
+    return <div className="container">Profile not found.</div>;
   }
 
   const { profile } = data;

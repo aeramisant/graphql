@@ -1,5 +1,7 @@
 import './Post.css';
+import AddPostModal from '../AddPostModal/AddPostModal';
 import { gql, useMutation } from '@apollo/client';
+import { Button } from 'react-bootstrap';
 
 const PUBLISH_POST = gql`
   mutation PublishPost($postId: ID!) {
@@ -31,6 +33,35 @@ const UNPUBLISH_POST = gql`
   }
 `;
 
+const DELETE_POST = gql`
+  mutation DeletePost($postId: ID!) {
+    postDelete(postId: $postId) {
+      userErrors {
+        message
+      }
+      post {
+        id
+        title
+        content
+      }
+    }
+  }
+`;
+// const UPDATE_POST = gql`
+//   mutation UpdatePost($postId: ID!, $post: PostInput!) {
+//     postUpdate(postId: $postId, post: $post) {
+//       post {
+//         content
+//         title
+//         id
+//       }
+//       userErrors {
+//         message
+//       }
+//     }
+//   }
+// `;
+
 export default function Post({
   title,
   content,
@@ -44,7 +75,12 @@ export default function Post({
     useMutation(PUBLISH_POST);
   const [unpublishPost, { loading: unpublishLoading, error: unpublishError }] =
     useMutation(UNPUBLISH_POST);
+  const [deletePost, { loading: deletePostLoading, error: deletPostError }] =
+    useMutation(DELETE_POST);
+  // const [editPost, { loading: editPostLoading, error: editPostError }] =
+  //   useMutation(UPDATE_POST);
   const formattedDate = new Date(Number(date));
+  const isEdit = id && title && content ? true : false;
 
   return (
     <div className={`Post${published ? '' : ' Post--draft'}`}>
@@ -78,6 +114,29 @@ export default function Post({
         </h4>
       </div>
       <p>{content}</p>
+      <div className="buttonContainer">
+        {isMyProfile && (
+          <div>
+            {isMyProfile ? (
+              <AddPostModal
+                isEdit={isEdit}
+                postId={id}
+                postTitle={title}
+                postContent={content}
+              />
+            ) : null}
+          </div>
+        )}
+        {isMyProfile && (
+          <Button
+            type="button"
+            onClick={() => {
+              deletePost({ variables: { postId: id } });
+            }}>
+            Delete
+          </Button>
+        )}
+      </div>
     </div>
   );
 }

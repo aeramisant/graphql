@@ -1,4 +1,3 @@
-import React from 'react';
 import Post from '../../components/Post/Post';
 import { gql, useQuery } from '@apollo/client';
 
@@ -20,7 +19,7 @@ const GET_POST = gql`
 
 export default function Posts() {
   const { data, error, loading } = useQuery(GET_POST);
-  console.log(data, error, loading);
+
   if (error) {
     return (
       <div>
